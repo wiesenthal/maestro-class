@@ -2,7 +2,7 @@ import torch
 import requests
 import argparse
 test = ["ask server to evaluate the code", "get the score"]
-test = test[0] # 0 checks the student ask for the server to evaluate their code; 1 gets the result from the server.
+test = test[1] # 0 checks the student ask for the server to evaluate their code; 1 gets the result from the server.
 
 def asking(url, device, student_id=123, student_name="Alice"):
     data = {"Application_Name": "Project_Attack", "data_type": "test", "id": student_id, "student_name": student_name,"task": "attack_project"}
@@ -37,8 +37,8 @@ def main():
     url = "http://" + ip + str(port)
     device = torch.device("cuda:0" if (torch.cuda.is_available()) else "cpu")
     print("at test")
-    student_id = 11
-    student_name = "Alice"
+    student_id = 15025642
+    student_name = "JulioC"
 
 
 

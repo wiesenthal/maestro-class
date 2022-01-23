@@ -47,7 +47,8 @@ class FSGMAttack:
         sign_data_grad = data_grad.sign()
 
         # Perturb the image in the direction of gradient by epsilon
-        perturbed_image = torch.FloatTensor(original_image) + epsilon * sign_data_grad
+        perturbed_image = torch.FloatTensor(original_image) + 0.05 * sign_data_grad
+        # x' = x + epsilon(sing(Df(x)))
         
         # Clamp the value of each pixel to be between 0 & 1
         perturbed_image = torch.clamp(perturbed_image, 0, 1)

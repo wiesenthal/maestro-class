@@ -41,9 +41,33 @@ class ProjectAttack:
 
         perturbed_image = deepcopy(original_image)
         # --------------TODO--------------
-        data_grad = None
-        sign_data_grad = None
-        perturbed_image = None
+        
+        data_grad = self.vm.get_batch_input_gradient(perturbed_image, labels)
+        data_grad = torch.FloatTensor(data_grad)
+
+        # print(type(data_grad))
+        # input("Enter... ")
+        
+        # Determine the direction of gradient using sign()
+        # sign_data_grad = torch.sigmoid(data_grad)
+        
+        
+        
+        sign_data_grad = data_grad.sign()
+        abs_data_grad = abs(data_grad)
+
+        sigmoid_data_grad = torch.sigmoid(abs_data_grad)
+        final_data_grad = sign_data_grad * sigmoid_data_grad
+        # final_data_grad = sign_data_grad * sigmoid_data_grad * (sum(perturbed_image) / sum(final_data_grad))
+        # sign_data_grad = data_grad
+
+        # Perturb the image in the direction of gradient by epsilon
+        perturbed_image = torch.FloatTensor(original_image) + epsilon * final_data_grad
+        # x' = x + epsilon(sing(Df(x)))
+        
+        # Clamp the value of each pixel to be between 0 & 1
+        perturbed_image = torch.clamp(perturbed_image, 0, 1)
+        
         # ------------END TODO-------------
         return perturbed_image.cpu().detach().numpy()
 
